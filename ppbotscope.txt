@@ -1,0 +1,101 @@
+## GOAL
+
+* Build bot that scrapes Prop Professor EV page
+* Bot will scrape data from the table on the page
+* Bot will need to run custom calculations to account for the messed up EV 
+* Bot will need to output the data in a clean format and send to discord
+
+## INFO NEEDED FROM JSON
+
+* values from each separate row (identify beginning and end of row)
+* values from each separate column (signified by the keys in the json)
+
+## NOTES
+
+* key value pairs are nested in result.data.json
+* line I'm interested in are all siblings
+* opposite side of market is nested in sub
+
+## 2/23 THOUGHTS
+
+* Should probably test method before I begin EV betting
+* options are a real-time test or a programmatic test
+* think real-time test on a smaller unit size would be best
+* BUT, I need to define the test first and determine what I'm looking for
+* ultimately I'm looking for profit, but want more advanced statistical tests from my results to get an idea of expected profitability
+* finish the bot, then worry about testing next
+
+## CUSTOM calculations
+
+* would prefer to receive worst case scenario EV and qK value from CNO 
+* CNO has API... wonder if I can promgrammaticly access the devigger and pass in the values from Prop Professor, and return worst case % and qK
+
+## NOTES ON CNO API
+
+* Devigger API URL:
+http://api.crazyninjaodds.com/api/devigger/v1/sportsbook_devigger.aspx?api=open
+* concern -- documentation alludes to rate limiting, if I'm running this program every 2 minutes or something I could hit the rate limit
+* alternative is to make my own devigger, but that's a lot of work
+* Probably best to have access to my own tool 
+
+## NOTES ON MY OWN Devigger
+
+* Multiplicative method
+* Additive method
+* Power devig method
+* Shin devig method
+
+* good explainer on methods in this article: https://help.outlier.bet/en/articles/8208129-how-to-devig-odds-comparing-four-methods
+
+--multiplicative 
+
+* formula for calculating implied probability on neg odds: For negative odds (e.g., -110): Implied Probability = Negative Odds / (Negative Odds - 100) (use absolute value of odds)
+* above formula gives one side of bet, need to calculate for both sides and then add together to get total implied probability
+* subtracting 100% gives exact vig
+* for positive odds, the numerator is 100 and the denominator is the odds + 100
+* for negative odds, the numerator is the odds and the denominator is the odds + 100
+* once I have implied prob of each side, I can determine fair implied prob by dividing the false implied probabality by (100% + vig%)
+* once I have devigged implied prob, I can convert back to American odds with the following formula
+* for positive odds: (100 / implied prob decimal (e.g., 0.238)) - 100
+* for negative odds: (100 / implied prob decimal - 1) - 100
+
+steps
+
+for each individual bookmaker
+1. calculate implied probability for each side
+2. calculate total implied probability
+3. calculate vig
+4. calculate fair implied probability
+5. calculate fair odds
+
+once these values are obtained
+1. average together each fair price for market fair value
+
+## EXTRACTING Odds
+ 
+*  Each element in the list under 'json' is a market dictionary. Iterate through these to access each market's details.
+
+## EV calculate
+
+* (fv prob of winning * odds) - (fv prob of losing * stake)
+
+## 3/7 THOUGHTS
+
+* pp scrape is basically done 
+* for my own use I could integrate the bots together now and take note of the flaws
+* for production purposes I need to do the following
+    1. format CNO output to match PP output
+    2. integrate the two bots together
+    3. prevent bot from posting same play twice
+* next step is to figure out how to get crazyninjaodds in the same format
+* also need to prevent the same plays from posting twice with different EVs
+* once above is done, need system for tracking plays, their results, and CLV
+
+## format CNO output to match pp output 
+
+## 3/9 THOUGHTS
+
+* pp scrape is mostly done for solo purposes
+* for production can add logic to prevent same plays from sending twice, but don't need it during test stage
+* can navigate to CNO market page, should be straightforward to tag the data I need and extract rest of market once it goes back up
+* next step is to implement testing strategy and system for tracking plays, their results, and CLV

@@ -1,0 +1,34 @@
+GOAL
+
+Test plays from the bot with the goal of determining whether or not system is working as expected.
+
+## EXPECTATIONS
+
+* 3%+ ROI on 5000 plays
+* consistent CLV (majority of plays, should probably shoot for 75%+)
+
+## TESTING strategy
+
+* Tracking plays
+- could use pickit for vast majority, but missing bovada/bol
+- could use excel for all, but would be a pain
+- could use pickit for most, and then manually track bovada/bol
+- could use pickit for most, and then manually track bovada/bol, and then manually track CLV in excel
+
+## TRACKING CLV
+
+- Need to make a checkpoint for when I take a play. 
+- Can do it manually to start with in the EV tracker spreadsheet
+- Ideal is to have a script that do it for me from discord message
+- Script will need to read start dates from EV tracker and then 
+    * query CNO game odds -> market -> play FV about 10 mins before game
+    * write into CLV column in EV tracker spreadsheet
+
+## Chatgpt suggestions
+
+- Use a flask web application as intermediary between discord link and excel file
+- "app doesn't need to be complex, just a single route will suffice"
+- secure, unique link is generated when play is identified
+
+
+

@@ -1,0 +1,21 @@
+EV Bots are (mostly) done, now just need a script that grabs CLV and a way to autoinsert plays into the spreadsheet
+
+1. Target is going to be game odds page: https://www.crazyninjaodds.com/site/browse/games.aspx
+2. Other source of truth is the spreadsheet desktop/WORK/betting/evTracker.xlsx
+3. Will need to grab the start date in scripts and append it to spreadsheet
+4. Will need a check for the start date and the current time
+5. If current time is 10-15 minutes before game start, will need to navigate to game odds page -> event link -> market input -> FV line for bet 
+6. Will need to grab the line value and append it to the spreedsheet in the relevant cell
+
+HOW TO GET IT done
+
+1. Will need to use the selenium package to navigate to the game odds page
+2. Will need to use pandas to read the spreadsheet and append the line value to the relevant cell
+3. Will need to use the datetime package to check the current time and compare it to the start time of the game
+4. Will need to use the time package to sleep the script until the game start time is 10-15 minutes away
+
+NEXT STEPS
+
+1. Manually track plays and CLV in spreadsheet until CLV bot is done, can begin testing today
+2. Finish CLV bot to automate CLV capture process
+3. Make a link from discord that lets me track auto insert plays into spreadsheet
